@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>99499370235-atq25g24p0hfj3os0t5t76mo63jcrfor.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.99499370235-atq25g24p0hfj3os0t5t76mo63jcrfor</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAr24kDYi9G-I9z8SZDoed0wNRRieAxVgs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>99499370235</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.lmnc-prod-tracker</string>
+	<key>PROJECT_ID</key>
+	<string>lumenci-product-tracker-d8e7a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>lumenci-product-tracker-d8e7a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:99499370235:ios:c44bc066d4e10b8ee2725e</string>
+	<key>DATABASE_URL</key>
+	<string>https://lumenci-product-tracker-d8e7a.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,6 @@
+framework module Pods_lmnc_prod_tracker {
+  umbrella header "Pods-lmnc_prod_tracker-umbrella.h"
+
+  export *
+  module * { export * }
+}
