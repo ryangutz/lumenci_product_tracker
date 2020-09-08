@@ -25,15 +25,13 @@ class addProductViewController: UIViewController {
     
     
     @IBOutlet weak var projectTextField: UITextField!
-    @IBOutlet weak var addNotesTextField: UITextField!
+    //@IBOutlet weak var addNotesTextField: UITextField!
+    @IBOutlet weak var notesTextView: UITextView!
     
     var db = Firestore.firestore()
     
     @IBAction func addButton(_ sender: Any) {
         let date = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        let minutes = calendar.component(.minute, from: date)
         
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -46,9 +44,10 @@ class addProductViewController: UIViewController {
             "model": modelTextField.text!,
             "model number": modelNumTextField.text!,
             "project": projectTextField.text!,
-            "notes": addNotesTextField.text!,
+            "notes": notesTextView.text!,
             "current user": "available",
-            "added": datetime
+            "added": datetime,
+            "check-in": ""
         ]) { err in
             if let err = err {
                 print("Error writing document: \(err)")
@@ -56,6 +55,25 @@ class addProductViewController: UIViewController {
                 print("Document successfully written!")
             }
         }
+        
+        let view = "mainScreen"
+        guard let window = UIApplication.shared.keyWindow else {
+            return
+        }
+        
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: view)
+
+        window.rootViewController = vc
+
+        let options: UIView.AnimationOptions = .transitionFlipFromLeft
+
+        let duration: TimeInterval = 0.8
+
+        UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
+        { completed in
+            // maybe do something on completion here
+        })
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +86,9 @@ class addProductViewController: UIViewController {
         mainStackView.sizeToFit()
         
         modelNumLabel.adjustsFontSizeToFitWidth = true
+        
+        notesTextView.text = ""
+        
         
         
         

@@ -23,6 +23,10 @@ import FirebaseFirestore
 
 class productListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    /*@IBAction func addButton(_ sender: Any) {
+        performSegue(withIdentifier: "addProductSegue", sender: self)
+    }*/
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return products.count
     }
@@ -52,7 +56,8 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        addButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -60,9 +65,9 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let selectedIndex = tableView.indexPath(for: sender as! UITableViewCell)
-        let row = selectedIndex?.row
         if segue.identifier == "detailVCSegue" {
+            let selectedIndex = tableView.indexPath(for: sender as! UITableViewCell)
+            let row = selectedIndex?.row
             let nextVC = segue.destination as? detailViewController
             nextVC!.brandDel = products[row!]
             nextVC!.modelDel = users[row!]

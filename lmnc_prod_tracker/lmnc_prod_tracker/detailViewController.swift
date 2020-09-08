@@ -20,7 +20,8 @@ class detailViewController: UIViewController {
     @IBOutlet weak var project: UILabel!
     
     @IBOutlet weak var currentUser: UILabel!
-    @IBOutlet weak var notes: UILabel!
+   // @IBOutlet weak var notes: UILabel!
+    @IBOutlet weak var notesTextView: UITextView!
     
     @IBOutlet weak var modelNumLabel: UILabel!
     var brandDel = String()
@@ -52,7 +53,7 @@ class detailViewController: UIViewController {
                 self.currentUser.text = currentUser
                 self.modelNumber.text = modelNum
                 self.project.text = project
-                self.notes.text = notes
+                self.notesTextView.text = notes
                 
             } else {
                 print("Document does not exist")
@@ -65,9 +66,46 @@ class detailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "checkInSegue" {
             let nextVC = segue.destination as? checkInViewController
-            print(notes.text!)
-            nextVC!.notes = notes.text!
+            
+            nextVC!.notes = notesTextView.text!
+            nextVC!.brand = brand.text!
+            nextVC!.model = model.text!
         }
+    }
+    
+    
+    @IBAction func checkout(_ sender: Any) {
+        let db = Firestore.firestore()
+        
+        db.collection("products").document(brandDel).updateData([
+            "current user": "available"
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+        
+        let view = "mainScreen"
+        guard let window = UIApplication.shared.keyWindow else {
+            return
+        }
+        
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: view)
+
+        window.rootViewController = vc
+
+        let options: UIView.AnimationOptions = .transitionFlipFromLeft
+
+        let duration: TimeInterval = 0.8
+
+        UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
+        { completed in
+            // maybe do something on completion here
+        })
+        
     }
     
 
