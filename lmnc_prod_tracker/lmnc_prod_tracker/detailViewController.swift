@@ -105,6 +105,7 @@ class detailViewController: UIViewController {
         { completed in
             // maybe do something on completion here
         })
+        /*_ = navigationController?.popViewController(animated: true)*/
         
     }
     
