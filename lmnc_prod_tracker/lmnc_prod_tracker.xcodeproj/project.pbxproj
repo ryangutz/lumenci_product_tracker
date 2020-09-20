@@ -17,7 +17,9 @@
 		0C9CC369250445FC00C52226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C9CC368250445FC00C52226 /* Assets.xcassets */; };
 		0C9CC36C250445FC00C52226 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C9CC36A250445FC00C52226 /* LaunchScreen.storyboard */; };
 		0C9CC37425044C1700C52226 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C9CC37325044C1700C52226 /* GoogleService-Info.plist */; };
-		0CE37EC42505BF9A00562820 /* checkInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE37EC32505BF9A00562820 /* checkInViewController.swift */; };
+		0CE37EC625099B7000562820 /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE37EC525099B7000562820 /* loginViewController.swift */; };
+		0CE37EC82509A5A500562820 /* notesPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE37EC72509A5A500562820 /* notesPopoverViewController.swift */; };
+		0CEFBD782516E3D800391CA9 /* lumenci_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CEFBD772516E3D800391CA9 /* lumenci_logo.png */; };
 		EE8F0B5F7442CF05964C273B /* Pods_lmnc_prod_tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FEBD12910E24CB4329DAF1E /* Pods_lmnc_prod_tracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +36,9 @@
 		0C9CC36B250445FC00C52226 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C9CC36D250445FC00C52226 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C9CC37325044C1700C52226 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0CE37EC32505BF9A00562820 /* checkInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkInViewController.swift; sourceTree = "<group>"; };
+		0CE37EC525099B7000562820 /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
+		0CE37EC72509A5A500562820 /* notesPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notesPopoverViewController.swift; sourceTree = "<group>"; };
+		0CEFBD772516E3D800391CA9 /* lumenci_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumenci_logo.png; sourceTree = "<group>"; };
 		3CE59ACD39EB183E7205DA27 /* Pods-lmnc_prod_tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lmnc_prod_tracker.debug.xcconfig"; path = "Target Support Files/Pods-lmnc_prod_tracker/Pods-lmnc_prod_tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		9FEBD12910E24CB4329DAF1E /* Pods_lmnc_prod_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lmnc_prod_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D652C8CA2C39D5A68FC79891 /* Pods-lmnc_prod_tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lmnc_prod_tracker.release.xcconfig"; path = "Target Support Files/Pods-lmnc_prod_tracker/Pods-lmnc_prod_tracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -73,15 +77,17 @@
 		0C9CC35E250445FB00C52226 /* lmnc_prod_tracker */ = {
 			isa = PBXGroup;
 			children = (
+				0CEFBD772516E3D800391CA9 /* lumenci_logo.png */,
 				0C9CC35F250445FB00C52226 /* AppDelegate.swift */,
 				0C9CC361250445FB00C52226 /* SceneDelegate.swift */,
 				0C9CC363250445FB00C52226 /* productListViewController.swift */,
-				0CE37EC32505BF9A00562820 /* checkInViewController.swift */,
 				0C666FFF25057840005EB88C /* detailViewController.swift */,
 				0C66700125058EE8005EB88C /* addProductViewController.swift */,
 				0C666FFD25057241005EB88C /* productListTableViewCell.swift */,
 				0C9CC37325044C1700C52226 /* GoogleService-Info.plist */,
 				0C9CC365250445FB00C52226 /* Main.storyboard */,
+				0CE37EC72509A5A500562820 /* notesPopoverViewController.swift */,
+				0CE37EC525099B7000562820 /* loginViewController.swift */,
 				0C9CC368250445FC00C52226 /* Assets.xcassets */,
 				0C9CC36A250445FC00C52226 /* LaunchScreen.storyboard */,
 				0C9CC36D250445FC00C52226 /* Info.plist */,
@@ -167,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C9CC36C250445FC00C52226 /* LaunchScreen.storyboard in Resources */,
+				0CEFBD782516E3D800391CA9 /* lumenci_logo.png in Resources */,
 				0C9CC37425044C1700C52226 /* GoogleService-Info.plist in Resources */,
 				0C9CC369250445FC00C52226 /* Assets.xcassets in Resources */,
 				0C9CC367250445FB00C52226 /* Main.storyboard in Resources */,
@@ -222,13 +229,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CE37EC82509A5A500562820 /* notesPopoverViewController.swift in Sources */,
 				0C9CC364250445FB00C52226 /* productListViewController.swift in Sources */,
 				0C666FFE25057241005EB88C /* productListTableViewCell.swift in Sources */,
 				0C9CC360250445FB00C52226 /* AppDelegate.swift in Sources */,
 				0C66700025057840005EB88C /* detailViewController.swift in Sources */,
+				0CE37EC625099B7000562820 /* loginViewController.swift in Sources */,
 				0C66700225058EE8005EB88C /* addProductViewController.swift in Sources */,
 				0C9CC362250445FB00C52226 /* SceneDelegate.swift in Sources */,
-				0CE37EC42505BF9A00562820 /* checkInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +382,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R2C8WU2L4M;
 				INFOPLIST_FILE = lmnc_prod_tracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -392,6 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R2C8WU2L4M;
 				INFOPLIST_FILE = lmnc_prod_tracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

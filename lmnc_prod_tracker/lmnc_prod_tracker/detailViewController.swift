@@ -9,8 +9,21 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
-class detailViewController: UIViewController {
+extension String {
+    func capitalizingFirstLetter() -> String {
+      return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+      self = self.capitalizingFirstLetter()
+    }
+}
+
+class detailViewController: UIViewController, UIPopoverPresentationControllerDelegate, notesPopoverViewControllerDelegate {
+    
+    
     @IBOutlet weak var checkInButton: UIButton!
     @IBOutlet weak var checkOutButton: UIButton!
     
@@ -23,22 +36,59 @@ class detailViewController: UIViewController {
    // @IBOutlet weak var notes: UILabel!
     @IBOutlet weak var notesTextView: UITextView!
     
+    @IBOutlet weak var currentUserLabel: UILabel!
     @IBOutlet weak var modelNumLabel: UILabel!
     var brandDel = String()
     var modelDel = String()
+    var id = String()
     
     var db = Firestore.firestore()
     
+    @IBAction func editNotesButton(_ sender: UIButton) {
+        /*let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "notesPopoverViewController")*/
+        
+        let popController = (storyboard?.instantiateViewController(withIdentifier: "notesPopoverViewController")) as! notesPopoverViewController
+        
+        popController.delegate = self
+        popController.notes = notesTextView.text
+        popController.product = id
+        // set the presentation style
+        popController.modalPresentationStyle = UIModalPresentationStyle.popover
+        
+        popController.preferredContentSize = CGSize(width: self.view.frame.width * 0.4, height: self.view.frame.height * 0.3)
+
+        // set up the popover presentation controller
+        popController.popoverPresentationController?.permittedArrowDirections = .down
+        popController.popoverPresentationController?.delegate = self
+        popController.popoverPresentationController?.sourceView = sender // button
+        /*popController.popoverPresentationController?.sourceRect = CGRect(x:sender.bounds.midX, y:sender.bounds.minY,width: 1,height: 1)*/
+        
+        // present the popover
+        self.present(popController, animated: true, completion: nil)
+    }
+    
+    func saveText(var strText: String) {
+        notesTextView.text = strText
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        brand.adjustsFontSizeToFitWidth = true
+        model.adjustsFontSizeToFitWidth = true
+        modelNumber.adjustsFontSizeToFitWidth = true
         
-        modelNumLabel.numberOfLines = 0
+        currentUser.adjustsFontSizeToFitWidth = true
+        modelNumLabel.adjustsFontSizeToFitWidth = true
+        currentUserLabel.adjustsFontSizeToFitWidth = true
         // Do any additional setup after loading the view.
         checkInButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
-        print(brandDel)
+        //print(brandDel)
 
-        db.collection("products").document(brandDel).getDocument { (document, error) in
+        db.collection("products").document(id).getDocument { (document, error) in
             if let document = document, document.exists {
                 let brand = document.get("brand") as! String
                  let model = document.get("model") as! String
@@ -63,7 +113,7 @@ class detailViewController: UIViewController {
         
         
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "checkInSegue" {
             let nextVC = segue.destination as? checkInViewController
             
@@ -71,14 +121,33 @@ class detailViewController: UIViewController {
             nextVC!.brand = brand.text!
             nextVC!.model = model.text!
         }
-    }
+    }*/
     
     
-    @IBAction func checkout(_ sender: Any) {
-        let db = Firestore.firestore()
+    @IBAction func checkin(_ sender: Any) {
+        let date = Date()
         
-        db.collection("products").document(brandDel).updateData([
-            "current user": "available"
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .long
+
+        let datetime = formatter.string(from: date)
+        
+        let user = Auth.auth().currentUser!.email
+        
+        
+        let components = user!.components(separatedBy: "@")
+        let nameComponents = components[0].components(separatedBy: ".")
+        
+        let firstName = nameComponents[0].capitalizingFirstLetter()
+        let lastName = nameComponents[1].capitalizingFirstLetter()
+        
+        let fullUserName = firstName + " " + lastName
+        
+        db.collection("products").document(id).updateData([
+            "notes": notesTextView.text!,
+            "current user": fullUserName,
+            "check-in": datetime
         ]) { err in
             if let err = err {
                 print("Error writing document: \(err)")
@@ -86,8 +155,15 @@ class detailViewController: UIViewController {
                 print("Document successfully written!")
             }
         }
-        
-        let view = "mainScreen"
+        if self.presentingViewController != nil {
+            self.dismiss(animated: false, completion: {
+               self.navigationController!.popViewController(animated: true)
+            })
+        }
+        else {
+            self.navigationController!.popViewController(animated: true)
+        }
+        /*let view = "mainScreen"
         guard let window = UIApplication.shared.keyWindow else {
             return
         }
@@ -104,7 +180,31 @@ class detailViewController: UIViewController {
         UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
         { completed in
             // maybe do something on completion here
-        })
+        })*/
+    }
+    
+    
+    @IBAction func checkout(_ sender: Any) {
+        let db = Firestore.firestore()
+        
+        db.collection("products").document(id).updateData([
+            "current user": "available"
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+        
+        if self.presentingViewController != nil {
+            self.dismiss(animated: false, completion: {
+               self.navigationController!.popViewController(animated: true)
+            })
+        }
+        else {
+            self.navigationController!.popViewController(animated: true)
+        }
         /*_ = navigationController?.popViewController(animated: true)*/
         
     }

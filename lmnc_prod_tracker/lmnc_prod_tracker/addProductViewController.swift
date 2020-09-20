@@ -17,8 +17,10 @@ class addProductViewController: UIViewController {
     @IBOutlet weak var brandTextField: UITextField!
     @IBOutlet weak var modelLabel: UILabel!
     
-    @IBOutlet weak var mainStackView: UIStackView!
-    @IBOutlet weak var stackView1: UIStackView!
+    //@IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var upperStackView: UIStackView!
+    
     @IBOutlet weak var modelNumLabel: UILabel!
     @IBOutlet weak var modelTextField: UITextField!
     @IBOutlet weak var modelNumTextField: UITextField!
@@ -31,6 +33,8 @@ class addProductViewController: UIViewController {
     var db = Firestore.firestore()
     
     @IBAction func addButton(_ sender: Any) {
+        let productID = random()
+        
         let date = Date()
         
         let formatter = DateFormatter()
@@ -39,7 +43,8 @@ class addProductViewController: UIViewController {
 
         let datetime = formatter.string(from: date)
         
-        db.collection("products").document(brandTextField.text! + " " + modelTextField.text!).setData([
+        db.collection("products").document(productID).setData([
+            "productID": productID,
             "brand": brandTextField.text!,
             "model": modelTextField.text!,
             "model number": modelNumTextField.text!,
@@ -56,7 +61,7 @@ class addProductViewController: UIViewController {
             }
         }
         
-        let view = "mainScreen"
+        /*let view = "mainScreen"
         guard let window = UIApplication.shared.keyWindow else {
             return
         }
@@ -73,26 +78,74 @@ class addProductViewController: UIViewController {
         UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
         { completed in
             // maybe do something on completion here
-        })
+        })*/
+        if self.presentingViewController != nil {
+            self.dismiss(animated: false, completion: {
+               self.navigationController!.popViewController(animated: true)
+            })
+        }
+        else {
+            self.navigationController!.popViewController(animated: true)
+        }
+        
     }
+    
+    func random(length: Int = 6) -> String {
+        let base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        var randomString: String = ""
+
+        for _ in 0..<length {
+            let randomValue = arc4random_uniform(UInt32(base.count))
+            randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+        }
+        return randomString
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        
+        view.addGestureRecognizer(tap)
 
         // Do any additional setup after loading the view.
         
         productInfoLabel.adjustsFontSizeToFitWidth = true
         productInfoLabel.sizeToFit()
         
-        mainStackView.sizeToFit()
+        //stackView.sizeToFit()
+        //upperStackView.sizeToFit()
         
         modelNumLabel.adjustsFontSizeToFitWidth = true
         
         notesTextView.text = ""
         
+        //brandLabel.adjustsFontSizeToFitWidth = true
+        //brandTextField.adjustsFontSizeToFitWidth = true
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         
         
        
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if projectTextField.isEditing || notesTextView.isFirstResponder{
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+            
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
 

@@ -16,6 +16,7 @@ class productListTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //currUser.adjustsFontSizeToFitWidth = true
     
     }
 

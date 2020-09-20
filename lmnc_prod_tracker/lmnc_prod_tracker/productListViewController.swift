@@ -22,6 +22,13 @@ import FirebaseFirestore
 
 
 class productListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var productLabel: UILabel!
+    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var addNewProduct: UIButton!
+    
+    @IBOutlet weak var productLabelView: UIView!
+    @IBOutlet weak var userLabelView: UIView!
+    
     
     /*@IBAction func addButton(_ sender: Any) {
         performSegue(withIdentifier: "addProductSegue", sender: self)
@@ -50,6 +57,7 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var addButton: UIButton!
     var products = [String]()
     var users = [String]()
+    var ids = [String]()
     
     var db = Firestore.firestore()
     
@@ -61,6 +69,18 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.delegate = self
         tableView.dataSource = self
         
+        //productLabel.adjustsFontSizeToFitWidth = true
+        //userLabel.adjustsFontSizeToFitWidth = true
+        
+        addNewProduct.layer.cornerRadius = 8
+        
+        tableView.layer.cornerRadius = 3
+        
+        productLabelView.layer.cornerRadius = 3
+        userLabelView.layer.cornerRadius = 3
+        
+    
+        
         
     }
     
@@ -71,6 +91,7 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
             let nextVC = segue.destination as? detailViewController
             nextVC!.brandDel = products[row!]
             nextVC!.modelDel = users[row!]
+            nextVC!.id = ids[row!]
         }
     }
     
@@ -86,17 +107,21 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
                  } else {
                      var product = [String]()
                      var user = [String]()
+                     var prodIDs = [String]()
             
                      for document in querySnapshot!.documents {
                          let brand = document.get("brand") as! String
                          let model = document.get("model") as! String
                          let prod = brand + " " + model
                          let currentUser = document.get("current user") as! String
+                        let id = document.get("productID") as! String
                          
                          product.append(prod)
                          user.append(currentUser)
+                         prodIDs.append(id)
                          self.products = product
                          self.users = user
+                         self.ids = prodIDs
                          self.tableView.reloadData()
                          
                      }
