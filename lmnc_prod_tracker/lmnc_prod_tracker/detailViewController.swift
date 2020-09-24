@@ -26,20 +26,19 @@ class detailViewController: UIViewController, UIPopoverPresentationControllerDel
     
     @IBOutlet weak var checkInButton: UIButton!
     @IBOutlet weak var checkOutButton: UIButton!
-    
-    @IBOutlet weak var brand: UILabel!
+    @IBOutlet weak var company: UILabel!
     @IBOutlet weak var model: UILabel!
     @IBOutlet weak var modelNumber: UILabel!
     @IBOutlet weak var project: UILabel!
     
+    @IBOutlet weak var productLabel: UILabel!
     @IBOutlet weak var currentUser: UILabel!
    // @IBOutlet weak var notes: UILabel!
     @IBOutlet weak var notesTextView: UITextView!
     
+    @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var currentUserLabel: UILabel!
     @IBOutlet weak var modelNumLabel: UILabel!
-    var brandDel = String()
-    var modelDel = String()
     var id = String()
     
     var db = Firestore.firestore()
@@ -76,7 +75,7 @@ class detailViewController: UIViewController, UIPopoverPresentationControllerDel
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        brand.adjustsFontSizeToFitWidth = true
+        company.adjustsFontSizeToFitWidth = true
         model.adjustsFontSizeToFitWidth = true
         modelNumber.adjustsFontSizeToFitWidth = true
         
@@ -84,13 +83,30 @@ class detailViewController: UIViewController, UIPopoverPresentationControllerDel
         modelNumLabel.adjustsFontSizeToFitWidth = true
         currentUserLabel.adjustsFontSizeToFitWidth = true
         // Do any additional setup after loading the view.
-        checkInButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        //checkInButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
-        //print(brandDel)
+        checkInButton.layer.cornerRadius = 3
+        checkOutButton.layer.cornerRadius = 3
+        
+        productLabel.sizeToFit()
+        companyLabel.adjustsFontSizeToFitWidth = true
+        
+        /*
+        TRYING TO ADD LOGO CODE
+         
+        let navController = navigationController!
+        
+        let logo = UIImage(named: "lumenci_logo.png")
+        let imageView = UIImageView(image: logo)
+        imageView.frame = CGRect(x: 0, y: 0, width: navController.navigationBar.frame.width * 0.1, height: navController.navigationBar.frame.height * 0.1)
+        self.navigationItem.titleView = imageView*/
+        
+        
+        
 
         db.collection("products").document(id).getDocument { (document, error) in
             if let document = document, document.exists {
-                let brand = document.get("brand") as! String
+                let company = document.get("company") as! String
                  let model = document.get("model") as! String
                  //let prod = brand + " " + model
                  let currentUser = document.get("current user") as! String
@@ -98,8 +114,9 @@ class detailViewController: UIViewController, UIPopoverPresentationControllerDel
                 let project = document.get("project") as! String
                 let notes = document.get("notes") as! String
                  
-                self.brand.text = brand
+                self.company.text = company
                 self.model.text = model
+                self.productLabel.text = company + " " + model
                 self.currentUser.text = currentUser
                 self.modelNumber.text = modelNum
                 self.project.text = project
@@ -113,15 +130,6 @@ class detailViewController: UIViewController, UIPopoverPresentationControllerDel
         
         
     }
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "checkInSegue" {
-            let nextVC = segue.destination as? checkInViewController
-            
-            nextVC!.notes = notesTextView.text!
-            nextVC!.brand = brand.text!
-            nextVC!.model = model.text!
-        }
-    }*/
     
     
     @IBAction func checkin(_ sender: Any) {

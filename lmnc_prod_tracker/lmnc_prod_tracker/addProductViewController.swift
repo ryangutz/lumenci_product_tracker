@@ -13,8 +13,9 @@ import FirebaseFirestore
 class addProductViewController: UIViewController {
     
     @IBOutlet weak var productInfoLabel: UILabel!
-    @IBOutlet weak var brandLabel: UILabel!
-    @IBOutlet weak var brandTextField: UITextField!
+    
+    @IBOutlet weak var companyLabel: UILabel!
+    @IBOutlet weak var companyTextField: UITextField!
     @IBOutlet weak var modelLabel: UILabel!
     
     //@IBOutlet weak var stackView: UIStackView!
@@ -29,6 +30,8 @@ class addProductViewController: UIViewController {
     @IBOutlet weak var projectTextField: UITextField!
     //@IBOutlet weak var addNotesTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var productView: UIView!
+    @IBOutlet weak var addButtonOutlet: UIButton!
     
     var db = Firestore.firestore()
     
@@ -45,7 +48,7 @@ class addProductViewController: UIViewController {
         
         db.collection("products").document(productID).setData([
             "productID": productID,
-            "brand": brandTextField.text!,
+            "company": companyTextField.text!,
             "model": modelTextField.text!,
             "model number": modelNumTextField.text!,
             "project": projectTextField.text!,
@@ -120,12 +123,12 @@ class addProductViewController: UIViewController {
         
         notesTextView.text = ""
         
-        //brandLabel.adjustsFontSizeToFitWidth = true
-        //brandTextField.adjustsFontSizeToFitWidth = true
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        productView.layer.cornerRadius = 5
+        addButtonOutlet.layer.cornerRadius = 3
         
         
        

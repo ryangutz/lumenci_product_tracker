@@ -69,9 +69,6 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.delegate = self
         tableView.dataSource = self
         
-        //productLabel.adjustsFontSizeToFitWidth = true
-        //userLabel.adjustsFontSizeToFitWidth = true
-        
         addNewProduct.layer.cornerRadius = 8
         
         tableView.layer.cornerRadius = 3
@@ -89,8 +86,6 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
             let selectedIndex = tableView.indexPath(for: sender as! UITableViewCell)
             let row = selectedIndex?.row
             let nextVC = segue.destination as? detailViewController
-            nextVC!.brandDel = products[row!]
-            nextVC!.modelDel = users[row!]
             nextVC!.id = ids[row!]
         }
     }
@@ -110,9 +105,9 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
                      var prodIDs = [String]()
             
                      for document in querySnapshot!.documents {
-                         let brand = document.get("brand") as! String
+                         let company = document.get("company") as! String
                          let model = document.get("model") as! String
-                         let prod = brand + " " + model
+                         let prod = company + " " + model
                          let currentUser = document.get("current user") as! String
                         let id = document.get("productID") as! String
                          
@@ -128,8 +123,8 @@ class productListViewController: UIViewController, UITableViewDelegate, UITableV
                    
                  }
             
-                 }
-    }
+            }
+      }
 
 
 }
